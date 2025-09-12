@@ -5,10 +5,10 @@ RUN dnf config-manager --enable ol9_codeready_builder && \
     go version
 
 # Copy the contents of the repository
-COPY . /workspace/go/src/linux-git.oraclecorp.com/OLCNE/Prometheus/kube-state-metrics
+COPY . /workspace/go/src/github.com/oracle-cne/kube-state-metrics
 
 ENV GOPATH=/workspace/go CGO_ENABLED=0
-WORKDIR /workspace/go/src/linux-git.oraclecorp.com/OLCNE/Prometheus/kube-state-metrics
+WORKDIR /workspace/go/src/github.com/oracle-cne/kube-state-metrics
 
 RUN git config --global --add safe.directory $(pwd) && \
     make build-local && \
@@ -17,7 +17,7 @@ RUN git config --global --add safe.directory $(pwd) && \
 FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
 COPY LICENSE THIRD_PARTY_LICENSES.txt olm/SECURITY.md /usr/share/licenses/
-COPY --from=builder /workspace/go/src/linux-git.oraclecorp.com/OLCNE/Prometheus/kube-state-metrics/kube-state-metrics /usr/bin
+COPY --from=builder /workspace/go/src/github.com/oracle-cne/kube-state-metrics/kube-state-metrics /usr/bin
 
 RUN microdnf update -y && \
     microdnf clean all && \
