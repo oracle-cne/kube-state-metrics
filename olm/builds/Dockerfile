@@ -21,7 +21,6 @@ COPY --from=builder /workspace/go/src/github.com/oracle-cne/kube-state-metrics/k
 
 RUN microdnf update -y && \
     microdnf clean all && \
-    rm -rf /var/cache/yum/* && \
     test -d /LICENSES || ln -s /usr/share/licenses /LICENSES
 
 USER nobody
