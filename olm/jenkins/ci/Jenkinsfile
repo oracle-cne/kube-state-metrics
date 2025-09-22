@@ -8,9 +8,6 @@ imagePipeline(
         containers: [('container-registry.oracle.com/olcne/kube-state-metrics:' + imageTag ): 'olcne/kube-state-metrics:' + imageTag],
         architectures: ['x86_64', 'aarch64'],
         platforms: [ 'ol9'],
-        golang: "1.24.3",
-        publishImage: false,
-        yumOL9Repos: ['ol9_appstream'],
         setupScript: '''
           export GOPATH=$(go env GOPATH)
           package_name="kube-state-metrics"
