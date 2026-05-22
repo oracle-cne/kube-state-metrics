@@ -1,0 +1,17 @@
+@Library('olcne-pipeline') _
+import com.oracle.olcne.pipeline.BranchPattern
+
+String imageTag = "v2.19.0"
+
+imagePipeline(
+        branchPattern: new BranchPattern(master: 'oracle/release/2.19.0', feature: '(?!^release/.*$)(^.*$)'),
+        containers: [('container-registry.oracle.com/olcne/kube-state-metrics:' + imageTag ): 'olcne/kube-state-metrics:' + imageTag],
+        architectures: ['x86_64', 'aarch64'],
+        platforms: [ 'ol9'],
+        setupScript: '''
+          export GOPATH=$(go env GOPATH)
+          package_name="kube-state-metrics"
+          GOPATH_SRC=$GOPATH/src/${package_name}
+        ''',
+        buildScript: "sh olm/build-image.sh",
+)
